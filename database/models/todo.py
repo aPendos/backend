@@ -1,0 +1,9 @@
+from database.engine import db
+
+
+class Task(db.Model):
+    __tablename__ = 'taskls'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)

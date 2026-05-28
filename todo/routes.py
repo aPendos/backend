@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, url_for
+
 
 task_bp = Blueprint('tasks', __name__, template_folder='templates')
 
@@ -29,13 +30,17 @@ def update_task(id):
     if request.method == 'POST':
         title = request.form.get('title')
         description = request.form.get('description')
-
-
+        for task in tasks_db:
+            if task.get('id') == id:
+                if title:
+                    task['title'] = title
+                if description:
+                    task['description'] = description
     task_one = []
     for task in tasks_db:
         if task.get('id') == id:
             task_one.append(task)
-    return render_template('update.html', task_on=task_one)
+    return render_template('update.html', task_one=task_one)
 
 
 @task_bp.route('/delete/<int:id>', methods=['POST'])
